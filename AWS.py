@@ -1,5 +1,4 @@
 import csv
-import json
 import boto3
 
 with open('credentials.csv', 'r') as input:
@@ -20,13 +19,8 @@ with open(photo, 'rb') as source_image:
     source_bytes = source_image.read()
 
 response = client.detect_text(Image= {'Bytes': source_bytes})
-#
-# obj = json.loads(response)
-#
+
 for i in response["TextDetections"]:
      print(i)
 
 
-
-# for i in response:
-#      print(i)
