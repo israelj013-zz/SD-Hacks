@@ -57,6 +57,14 @@ body{
     float: right;
 }
 
-#error{
-    left: 40%;
+#error-activities{
+    margin-left: 145px;
+    color: #ff0000;
+    display: none;
+}
+
+#error-activity{
+    margin-left: 209px;
+    color: #ff0000;
+    display: none;
 }
