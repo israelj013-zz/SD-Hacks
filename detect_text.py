@@ -83,6 +83,5 @@ def create_schedule(img_bytes):
         'Fri': {'offsetLeft': 0, 'times': []},
     }
     schedule = fill_schedule(iresponse, schedule)
-    for k in schedule:
-        print(k, ':', schedule[k]['times'])
+    
     return schedule
