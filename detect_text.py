@@ -71,7 +71,8 @@ def create_schedule(img_bytes):
             secret_access_key = line[1]
     client = boto3.client('textract',
                           aws_access_key_id=access_key_id,
-                          aws_secret_access_key=secret_access_key)
+                          aws_secret_access_key=secret_access_key,
+                          region_name = "us-east-2")
     response = client.detect_document_text(Document={'Bytes': img_bytes})
     iresponse = iter(response['Blocks'])
     next(iresponse)
@@ -86,11 +87,11 @@ def create_schedule(img_bytes):
     for k in schedule:
         print(k, ':', schedule[k]['times'])
     return schedule
-<<<<<<< HEAD
+# <<<<<<< HEAD
 
 
 # with open('schedule.png', 'rb') as source_image:
 #     source_bytes = source_image.read()
 # create_schedule(source_bytes)
-=======
->>>>>>> f654f82876f9f80b672616c17cdf513f41553c11
+# =======
+# >>>>>>> f654f82876f9f80b672616c17cdf513f41553c11
