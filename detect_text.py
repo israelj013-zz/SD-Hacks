@@ -73,6 +73,6 @@ def create_schedule(img_bytes):
     return schedule
 
 
-with open('schedule.png', 'rb') as source_image:
-    source_bytes = source_image.read()
-create_schedule(source_bytes)
+# with open('schedule.png', 'rb') as source_image:
+#     source_bytes = source_image.read()
+# create_schedule(source_bytes)

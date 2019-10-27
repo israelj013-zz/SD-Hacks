@@ -5,11 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script type="text/javascript">
+
+    </script>
 </head>
 <body>
-    <form action="" class="form-inline" method="post">
+    <form action="http://127.0.0.1:5000/modifySchedule" class="form-inline" method="POST" enctype=multipart/form-data>
             <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" value="{{request.form.fileToUpload}}">
+            <input type = "submit" class = "btn-search">
     </form>
-    
+
+<!--
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form action = "/modifySchedule" method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form> -->
+
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
 </html>
