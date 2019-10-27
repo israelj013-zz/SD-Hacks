@@ -37,12 +37,16 @@ def get_file():
         attemptedFile = request.files["fileToUpload"]
         print('here', attemptedFile)
         filename = secure_filename(attemptedFile.filename)
-        # print(attemptedFile)
+        newfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         attemptedFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        with open('uploads/'+filename, 'rb') as source_image:
+
+        #print('this file', filename, 'and the attepmpt', attemptedFile)
+        with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
         return render_template("modifySchedule.html", schedule = schedule)
+        #uncomment this later pls return render_template("modifySchedule", schedule = schedule)
+
     # except Exception as e:
     #     flash(e)
     #
