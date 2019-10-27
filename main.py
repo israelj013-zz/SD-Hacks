@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = "sd-hacks"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route("/")
 def home():
     return render_template("main.html")
@@ -38,12 +39,14 @@ def get_file():
         filename = secure_filename(attemptedFile.filename)
         newfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         attemptedFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         #print('this file', filename, 'and the attepmpt', attemptedFile)
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
         return render_template("modifySchedule.html", schedule = schedule)
         #uncomment this later pls return render_template("modifySchedule", schedule = schedule)
+
     # except Exception as e:
     #     flash(e)
     #
