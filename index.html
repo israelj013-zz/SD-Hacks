@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container jumbotron-fluid jumbotron">
+        <div class="row">
+            <div class="col-12">
+                <form action="">
+                    <input type="text" placeholder="Activity Description" id="activity"></input>
+                    <p id="error-activity">Error</p>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <p class="input">Hour:</p>
+                                <select class="form-control" id="selectHour"></select>
+                            </div>
+                            <div class="col-4" style="display:block;">
+                                <p class="input">Minutes:</p>
+                                <select class="selectMins"></select>
+                                <select class="selectMins"></select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row text-center">
+            <button id="add">Add</button>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <h2 class="header text-center">Activities:</h2>
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <span class="input">Start:</span>
+                        <select class="form-control range" id="selectHourStart"></select>
+                    </div>
+                    <div class="col-3">
+                            <span class="input">End:</span>
+                            <select class="form-control range" id="selectHourEnd"></select>
+                        </div>
+
+                </div>
+                <p id="error-activities">Error</p>
+                <ul class="list-group" id="activities">
+                    <li class="list-group-item">No Activities Planned</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-2 submit">
+                <button type="button"  id="submit">Add to Schedule</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="js/createHTML.js"></script>
+<script src="js/addActivities.js"></script>
+</html>
