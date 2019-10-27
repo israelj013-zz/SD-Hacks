@@ -8,7 +8,25 @@
 </head>
 <body>
     <p>
-        Yeup yeup yeup
+
+
+        {% for day in schedule %}
+            <h2>{{day}}</h2>
+            <ul>
+            {% for time in schedule[day]['times'] %}
+                <li>{{ time }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+        {% for day in availabilities %}
+            <h2>{{day}}</h2>
+            <ul>
+            {% for time in availabilities[day]['times'] %}
+                <li>{{ time }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+
     </p>
 
 </body>

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, send_from_directory
 from detect_text import create_schedule
+from available_times import available_schedule
 from werkzeug.utils import secure_filename
 import os
 
@@ -7,6 +8,16 @@ UPLOAD_FOLDER = "uploads"
 app = Flask(__name__)
 app.secret_key = "sd-hacks"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
 
 @app.route("/")
 def home():
@@ -27,23 +38,19 @@ def home():
 #     return redirect(url_for('modifySchedule'))
 #     #return render_template("main.html")
 
-@app.route("/modifySchedule", methods = ["GET", "POST"] )
+@app.route("/index", methods = ["GET", "POST"] )
 def get_file():
     error = None
     # try:
     if request.method == "POST":
-        print(request.files)
         attemptedFile = request.files["fileToUpload"]
-        print('here', attemptedFile)
         filename = secure_filename(attemptedFile.filename)
         newfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         attemptedFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #print('this file', filename, 'and the attepmpt', attemptedFile)
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
-        return render_template("modifySchedule.html", schedule = schedule)
-        #uncomment this later pls return render_template("modifySchedule", schedule = schedule)
+        return render_template("index.html", schedule = schedule)
     # except Exception as e:
     #     flash(e)
     #
