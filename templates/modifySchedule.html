@@ -8,7 +8,15 @@
 </head>
 <body>
     <p>
-        results
+
+        {% for day in schedule %}
+            <h2>{{day}}</h2>
+            <ul>
+            {% for time in schedule[day]['times'] %}
+                <li>{{ time }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
     </p>
     
 </body>

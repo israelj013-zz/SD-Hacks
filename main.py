@@ -3,10 +3,11 @@ from detect_text import create_schedule
 from werkzeug.utils import secure_filename
 import os
 
-UPLOAD_FOLDER = "C:/Users/mjnav/github/SD-Hacks"
+UPLOAD_FOLDER = "uploads"
 app = Flask(__name__)
 app.secret_key = "sd-hacks"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 @app.route("/")
 def home():
@@ -38,12 +39,10 @@ def get_file():
         filename = secure_filename(attemptedFile.filename)
         # print(attemptedFile)
         attemptedFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        with open(filename, 'rb') as source_image:
+        with open('uploads/'+filename, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
-        return render_template("modifySchedule", schedule = schedule)
-        #commet
-        #return("Hello World")
+        return render_template("modifySchedule.html", schedule = schedule)
     # except Exception as e:
     #     flash(e)
     #
