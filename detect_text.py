@@ -1,12 +1,28 @@
 import csv
 import boto3
 import datetime
+import re
+
+
+def fix_time(time_range):
+    fixed_list = []
+    new_list = time_range.replace('am', ' ').replace('pm', ' ').replace('-', ' ').replace('p', ' ').replace('a', ' ').split()
+    for i in new_list:
+        if ':' in i:
+            fixed_list.extend(i.split(':'))
+        else:
+            fixed_list.extend([i, "00"])
+    return fixed_list
 
 
 def set_time(time_range, time_offset):
-    time_range_list = time_range.replace('-', ' ').replace(':', ' ').replace('p', ' ').split()
-    date_time_list = [datetime.time(int(time_range_list[0])+time_offset-1, int(time_range_list[1])),
-                      datetime.time(int(time_range_list[2])+time_offset-1, int(time_range_list[3]))]
+    time_range_list = fix_time(time_range)
+    date_time_list = []
+    for i in range(2):
+        if time_range_list[i*2] == '12':
+            date_time_list.append(datetime.time(int(time_range_list[0+i*2])-1, int(time_range_list[1+i*2])))
+        else:
+            date_time_list.append(datetime.time(int(time_range_list[0+i*2])+time_offset-1, int(time_range_list[1 + i*2])))
     return date_time_list
 
 
@@ -27,20 +43,21 @@ def find_day(time_range, offset_left, schedule, time_offset):
 
 def fill_schedule(response, schedule):
     time_offset = 0
+    regex = '^([0-1]?)([0-9])(([ap]m)?|(:[0-5][0-9])?)([ap]m)?((\s*-\s*)|(\s+))([0-1]?)([0-9])(([ap]m)?|(:[0-5][0-9])?)([ap]m)?$'
     for i in response:
-        if i['Text'] == 'Mon':
+        if i['Text'] in ['Mon', 'MON', 'Monday']:
             schedule['Mon']['offsetLeft'] = i['Geometry']['BoundingBox']['Left']
-        elif i['Text'] == 'Tue':
+        elif i['Text'] in ['Tue', 'TUE', 'Tuesday']:
             schedule['Tue']['offsetLeft'] = i['Geometry']['BoundingBox']['Left']
-        elif i['Text'] == 'Wed':
+        elif i['Text'] in ['Wed', 'WED', 'Wednesday']:
             schedule['Wed']['offsetLeft'] = i['Geometry']['BoundingBox']['Left']
-        elif i['Text'] == 'Thu':
+        elif i['Text'] in ['Thu','THU','Thursday']:
             schedule['Thu']['offsetLeft'] = i['Geometry']['BoundingBox']['Left']
-        elif i['Text'] == 'Fri':
+        elif i['Text'] in ['Fri','FRI','Friday']:
             schedule['Fri']['offsetLeft'] = i['Geometry']['BoundingBox']['Left']
-        elif ':' in i['Text'] and i['BlockType'] == "LINE":
+        elif re.match(regex, i['Text']) and i['BlockType'] == "LINE":
             find_day(i['Text'], i['Geometry']['BoundingBox']['Left'], schedule, time_offset)
-        elif 'pm' in i['Text']:
+        elif 'pm' in i['Text'] or 'PM' in i['Text']:
             time_offset = 12
     return schedule
 
@@ -55,10 +72,6 @@ def create_schedule(img_bytes):
     client = boto3.client('textract',
                           aws_access_key_id=access_key_id,
                           aws_secret_access_key=secret_access_key)
-    client1 = boto3.client('rekognition',
-                           aws_access_key_id=access_key_id,
-                           aws_secret_access_key=secret_access_key)
-
     response = client.detect_document_text(Document={'Bytes': img_bytes})
     iresponse = iter(response['Blocks'])
     next(iresponse)
@@ -70,9 +83,6 @@ def create_schedule(img_bytes):
         'Fri': {'offsetLeft': 0, 'times': []},
     }
     schedule = fill_schedule(iresponse, schedule)
+    for k in schedule:
+        print(k, ':', schedule[k]['times'])
     return schedule
-
-
-with open('schedule.png', 'rb') as source_image:
-    source_bytes = source_image.read()
-create_schedule(source_bytes)
