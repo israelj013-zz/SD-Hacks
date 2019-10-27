@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
 from detect_text import create_schedule
+from available_times import available_schedule
 from werkzeug.utils import secure_filename
 import os
 
@@ -44,7 +45,8 @@ def get_file():
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
-        return render_template("modifySchedule.html", schedule = schedule)
+        availabilities = available_schedule(schedule, 7, 18)
+        return render_template("modifySchedule.html", schedule = schedule, availabilities = availabilities)
         #uncomment this later pls return render_template("modifySchedule", schedule = schedule)
 
     # except Exception as e:
