@@ -28,7 +28,7 @@ def home():
 #     return redirect(url_for('modifySchedule'))
 #     #return render_template("main.html")
 
-@app.route("/modifySchedule", methods = ["GET", "POST"] )
+@app.route("/index", methods = ["GET", "POST"] )
 def get_file():
     error = None
     # try:
@@ -40,7 +40,7 @@ def get_file():
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
-        return render_template("modifySchedule.html", schedule = schedule)
+        return render_template("index.html", schedule = schedule)
     # except Exception as e:
     #     flash(e)
     #
