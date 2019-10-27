@@ -34,14 +34,10 @@ def get_file():
     error = None
     # try:
     if request.method == "POST":
-        print(request.files)
         attemptedFile = request.files["fileToUpload"]
-        print('here', attemptedFile)
         filename = secure_filename(attemptedFile.filename)
         newfile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         attemptedFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        #print('this file', filename, 'and the attepmpt', attemptedFile)
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
