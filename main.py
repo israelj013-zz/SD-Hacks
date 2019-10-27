@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, send_from_directory
 from detect_text import create_schedule
 from available_times import available_schedule
 from werkzeug.utils import secure_filename
@@ -9,6 +9,15 @@ app = Flask(__name__)
 app.secret_key = "sd-hacks"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
 
 @app.route("/")
 def home():
@@ -41,14 +50,7 @@ def get_file():
         with open(newfile, 'rb') as source_image:
               source_bytes = source_image.read()
         schedule = create_schedule(source_bytes)
-<<<<<<< HEAD
         return render_template("index.html", schedule = schedule)
-=======
-        availabilities = available_schedule(schedule, 7, 18)
-        return render_template("modifySchedule.html", schedule = schedule, availabilities = availabilities)
-        #uncomment this later pls return render_template("modifySchedule", schedule = schedule)
-
->>>>>>> f20d05d45cc923a990a330d3e0ee2562d082df29
     # except Exception as e:
     #     flash(e)
     #

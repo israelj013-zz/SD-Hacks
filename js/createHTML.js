@@ -17,5 +17,6 @@ function addOptions(num){
     return options
 }
 
+ console.log("here");
 createHours();
 createMinutes();
